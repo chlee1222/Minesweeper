@@ -165,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         }
         seenCells.add(n);
 
+        if(seenCells.size() == 116){
+            showAllBombsGood();
+        }
+
         if (dig == true){
             if(mines.contains(n)){
                 showAllBombs();
@@ -214,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
             TextView flagvariable = (TextView) findViewById(R.id.flagvariable);
             String flagcountstring = (String) flagvariable.getText();
             Integer flagcountinteger = Integer.parseInt(flagcountstring);
+
             if(flagspots.contains(n)){
                 flagcountinteger += 1;
                 cell.setBackgroundColor(Color.parseColor("lime"));
@@ -228,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             String flagcountstring2 = String.valueOf(flagcountinteger);
             flagvariable.setText(flagcountstring2);
 
-            if(flagcountinteger == 0 && seenCells.size() == 116){
+            if(seenCells.size() == 116){
                 showAllBombsGood();
             }
         }
