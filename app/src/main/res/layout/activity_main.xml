@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainLayout"
     tools:context=".MainActivity">
 
     <TextView
@@ -60,18 +61,17 @@
         android:id="@+id/clockvariable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:width="64dp"
+        android:width="90dp"
         android:height="64dp"
         android:text="4"
         android:textAlignment="center"
         android:textSize="32sp"
         app:layout_constraintBottom_toTopOf="@+id/gridLayout01"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.798"
+        app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toStartOf="@+id/clockbox"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.51"
-        />
+        app:layout_constraintVertical_bias="0.507" />
 
     <android.widget.GridLayout
         android:id="@+id/gridLayout01"

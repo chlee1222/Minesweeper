@@ -1,14 +1,18 @@
 package com.example.minesweeper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     private HashSet<Integer> seenCells = new HashSet<>();
     private HashSet<Integer> flagspots = new HashSet<>();
+
+    private int seconds = 0;
+    private boolean running = true;
 
 
 
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cell_list = new ArrayList<TextView>();
+
+        runTimer();
 
         GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
         for (int i = 0; i<12; i++) {
@@ -66,6 +75,30 @@ public class MainActivity extends AppCompatActivity {
         }
         TextView pickorflag = (TextView) findViewById(R.id.pickflag);
         pickorflag.setOnClickListener(this::onClickPickOrFlag);
+    }
+
+    public void runTimer(){
+        TextView timer = (TextView) findViewById(R.id.clockvariable);
+        Handler handler = new Handler();
+        handler.post(new Runnable(){
+            @Override
+            public void run(){
+                int minutes = (seconds % 3600)/60;
+                int secs = seconds % 60;
+                String time;
+                if(minutes == 0){
+                    time = String.format("%02d", secs);
+                }
+                else {
+                    time = String.format("%02d:%02d", minutes, secs);
+                }
+                timer.setText(time);
+                if(running){
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
     }
 
     private int findIndexOfCellTextView(TextView cell) {
@@ -144,15 +177,27 @@ public class MainActivity extends AppCompatActivity {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.RED);
         }
+        GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
+
+        ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
+        mainLayout.setOnClickListener(this::onClickMain);
     }
 
     public void showAllBombsGood(){
+        running = false;
         for(Integer mine : mines) {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.YELLOW);
         }
     }
 
+    public void onClickMain(View view){
+        running = false;
+        for(Integer mine : mines) {
+            TextView cell = cell_list.get(mine);
+            cell.setBackgroundColor(Color.MAGENTA);
+        }
+    }
 
     public void onClick(View view){
 
