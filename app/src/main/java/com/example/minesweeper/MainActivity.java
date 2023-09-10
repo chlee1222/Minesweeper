@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean running = true;
 
 
-
     private static final int COLUMN_COUNT = 10;
     private boolean dig = true;
+
+    private List<Integer> passValues = new ArrayList<>();
+
 
 
     private int dpToPixel(int dp) {
@@ -172,34 +176,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showAllBombs(){
+    public void showAllBombs(int i){
         running = false;
         for(Integer mine : mines) {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.RED);
         }
-
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
-//        mainLayout.getRootView().setOnClickListener(this::onClickMain);
         mainLayout.setOnClickListener(this::onClickMain);
+        passValues.add(i);
+        passValues.add(seconds);
     }
 
-    public void showAllBombsGood(){
-        running = false;
-        for(Integer mine : mines) {
-            TextView cell = cell_list.get(mine);
-            cell.setBackgroundColor(Color.YELLOW);
-        }
-        ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
-//        mainLayout.getRootView().setOnClickListener(this::onClickMain);
-        mainLayout.setOnClickListener(this::onClickMain);
-    }
 
     public void onClickMain(View view){
-        for(Integer mine : mines) {
-            TextView cell = cell_list.get(mine);
-            cell.setBackgroundColor(Color.MAGENTA);
+        Intent intent = new Intent(this, ResultPage.class);
+        int[] values = new int[passValues.size()];
+        for (int i = 0; i < passValues.size(); i++) {
+            values[i] = passValues.get(i);
         }
+        intent.putExtra("message", values);
+        startActivity(intent);
     }
 
     public void onClick(View view){
@@ -217,12 +214,11 @@ public class MainActivity extends AppCompatActivity {
             seenCells.add(n);
 
             if(seenCells.size() == 116){
-                showAllBombsGood();
+                showAllBombs(1);
             }
 
             if(mines.contains(n)){
-                showAllBombs();
-
+                showAllBombs(0);
                 return;
             }
             int mineCount = getMineCount(cell);
@@ -284,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
             flagvariable.setText(flagcountstring2);
 
             if(seenCells.size() == 116){
-                showAllBombsGood();
+                showAllBombs(1);
             }
         }
     }
