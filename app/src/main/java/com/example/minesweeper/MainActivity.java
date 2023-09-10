@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 timer.setText(time);
                 if(running){
-                    seconds++;
+                    seconds += 1;
                 }
                 handler.postDelayed(this, 1000);
             }
@@ -173,13 +173,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showAllBombs(){
+        running = false;
         for(Integer mine : mines) {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.RED);
         }
-        GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
 
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
+//        mainLayout.getRootView().setOnClickListener(this::onClickMain);
         mainLayout.setOnClickListener(this::onClickMain);
     }
 
@@ -189,10 +190,12 @@ public class MainActivity extends AppCompatActivity {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.YELLOW);
         }
+        ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
+//        mainLayout.getRootView().setOnClickListener(this::onClickMain);
+        mainLayout.setOnClickListener(this::onClickMain);
     }
 
     public void onClickMain(View view){
-        running = false;
         for(Integer mine : mines) {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.MAGENTA);
@@ -208,13 +211,15 @@ public class MainActivity extends AppCompatActivity {
         if(seenCells.contains(n)){
             return;
         }
-        seenCells.add(n);
 
-        if(seenCells.size() == 116){
-            showAllBombsGood();
-        }
 
         if (dig == true){
+            seenCells.add(n);
+
+            if(seenCells.size() == 116){
+                showAllBombsGood();
+            }
+
             if(mines.contains(n)){
                 showAllBombs();
 
