@@ -200,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
-
         TextView cell = (TextView) view;
         int n = findIndexOfCellTextView(cell);
         int i = n/COLUMN_COUNT;
@@ -216,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
             if(seenCells.size() == 116){
                 showAllBombs(1);
             }
-
             if(mines.contains(n)){
                 showAllBombs(0);
                 return;

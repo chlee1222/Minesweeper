@@ -28,6 +28,7 @@ public class ResultPage extends AppCompatActivity{
     }
 
     public void onClickReset(View view){
-        return;
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
