@@ -167,11 +167,11 @@ public class MainActivity extends AppCompatActivity {
         TextView icon = (TextView) view;
 
         if(dig){
-            icon.setText("flag");
+            icon.setText(R.string.flag);
             dig = false;
         }
         else{
-            icon.setText("pick");
+            icon.setText(R.string.pick);
             dig = true;
         }
     }
@@ -183,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
             cell.setBackgroundColor(Color.RED);
         }
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
+        GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
+        grid.setOnClickListener(this::onClickMain);
         mainLayout.setOnClickListener(this::onClickMain);
         passValues.add(i);
         passValues.add(seconds);
@@ -200,6 +202,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
+        if (running == false){
+            Intent intent = new Intent(this, ResultPage.class);
+            int[] values = new int[passValues.size()];
+            for (int i = 0; i < passValues.size(); i++) {
+                values[i] = passValues.get(i);
+            }
+            intent.putExtra("message", values);
+            startActivity(intent);
+        }
+
         TextView cell = (TextView) view;
         int n = findIndexOfCellTextView(cell);
         int i = n/COLUMN_COUNT;
@@ -266,11 +278,12 @@ public class MainActivity extends AppCompatActivity {
             if(flagspots.contains(n)){
                 flagcountinteger += 1;
                 cell.setBackgroundColor(Color.parseColor("lime"));
+                cell.setText("");
                 flagspots.remove(n);
             }
             else{
                 flagcountinteger -= 1;
-                cell.setBackgroundColor(Color.BLUE);
+                cell.setText(R.string.flag);
                 flagspots.add(n);
             }
             seenCells.remove(n);
