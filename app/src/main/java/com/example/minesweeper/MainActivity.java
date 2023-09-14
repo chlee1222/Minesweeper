@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         for(Integer mine : mines) {
             TextView cell = cell_list.get(mine);
             cell.setBackgroundColor(Color.RED);
+            cell.setText(R.string.mine);
         }
         ConstraintLayout mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
         GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
@@ -222,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (dig == true){
+
+            if(flagspots.contains(n)){
+                return;
+            }
             seenCells.add(n);
 
             if(seenCells.size() == 116){
